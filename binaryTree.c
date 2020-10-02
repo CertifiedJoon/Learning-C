@@ -19,27 +19,30 @@ void ungetch(int);
 
 int main()
 {
-   char ch, file_name[25];
-   FILE *fp;
-   printf("Enter name of a file you wish to see\n");
-   gets(file_name);
-   fp = fopen(file_name, "r"); // read mode
+  char ch, file_name[25];
+  FILE *fp;
+  printf("Enter name of a file you wish to see\n");
+  gets(file_name);
+  fp = fopen(file_name, "r"); // read mode
 
-   if (fp == NULL){
-     perror("Error while opening the file.\n");
-     exit(EXIT_FAILURE);
-   }
-   struct tnode *root;
-   char word[MAXWORD];
+  if (fp == NULL){
+    perror("Error while opening the file.\n");
+    exit(EXIT_FAILURE);
+  }
+  struct tnode *root;
+  char word[MAXWORD];
 
-   root = NULL;
-   while(getword(fp, word, MAXWORD) != EOF){
-     if(isalpha(word[0]))
-        root = addtree(root,word);
-   }
-   treeprint(root);
-   fclose(fp);
-   return 0;
+  root = NULL;
+  while(getword(fp, word, MAXWORD) != EOF){
+    if(isalpha(word[0]))
+      root = addtree(root,word);
+    int j = 0;
+    while(word[j] != '\0')
+      word[j++] = 0;
+  }
+  treeprint(root);
+  fclose(fp);
+  return 0;
 }
 
 struct tnode *talloc(void);
@@ -93,17 +96,18 @@ int getword(FILE *fp, char *word, int lim){
     *w = '\0';
     return c;
   }
-  for ( ; --lim > 0; w++)
+  for ( ; --lim > 0; w++){
     if (!isalnum(*w  = getch(fp))) {
       ungetch(*w);
       break;
     }
+  }
   *w = '\n';
-  printf("the word is: %s\n", word);
+  printf("the word is: %s", word);
   return word[0];
 }
 
-#define BUFSIZE 1
+#define BUFSIZE 10
 
 static char buf[BUFSIZE];  // buffer for ungetch
 static int bufp;           /*next free psition in buffer */
