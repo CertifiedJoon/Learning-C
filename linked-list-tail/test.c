@@ -13,10 +13,11 @@ void run_diagnostics(){
 }
 
 void cjlist_destroy(CJForwardList *ll){
-  struct CJnode *current = ll->head;
-  while (current != NULL){
-    free(current);
-    current = current->next;
+  struct CJnode *temp;
+  while (ll->head != NULL){
+    temp = ll->head;
+    ll->head = ll->head->next;
+    free(temp);
   }
   free(ll);
 }
