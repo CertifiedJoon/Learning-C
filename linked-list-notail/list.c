@@ -188,6 +188,28 @@ void cjlist_reverse(CJForwardList *ll){
   ll->head = prev;
 }
 
+int cjlist_value_n_from_end(CJForwardList *ll, int n) {
+
+  struct CJnode *first = ll->head;
+  struct CJnode *match = ll->head;
+
+  for (int i = 0; i < n; ++i) {
+    if (first) {
+      first = first->next;
+    } else {
+      printf("List not long enough to find nth item from end.");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  while (first) {
+    first = first->next;
+    match = match->next;
+  }
+
+  return match->data;
+}
+
 void checknull(void *p){
   if (p == NULL) {
     printf("Unable to allocate memory\n");

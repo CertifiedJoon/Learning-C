@@ -44,4 +44,6 @@ void cjlist_reverse(CJForwardList *ll);
 
 void checknull(void *p);
 
+int cjlist_value_n_from_end(CJForwardList *ll, int n);
+
 #endif
