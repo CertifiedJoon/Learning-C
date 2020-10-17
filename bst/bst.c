@@ -1,8 +1,7 @@
-#include "bst.h"
 #define max(x,y) (((x) > (y)) ? (x) : (y))
 
 Node* new_node(int val){
-    Node* node = malloc(sizeof(node));
+    Node* node = malloc(sizeof(Node));
     assert(node != 0);
     node->val = val;
     node->left = NULL;
@@ -12,152 +11,196 @@ Node* new_node(int val){
 }
 
 void insert(Node** root, int item){
-    if (*root == 0){
+    if (*root == NULL){
         Node* node = new_node(item);
         *root = node;
+        return;
     }
 
-    if (item < *root->val)
-        *root->left = insert(&(*root->left), value);
-    else if (value > node->value)
-        *root->right = insert(&(*root->right), value);
+    else if(item < (*root)->val){
+        insert(&((*root)->left), item);
+    }
 
-    return;
+    else{
+        insert(&((*root)->right), item);
+    }
 }
 
-int get_node_count(Node* node){
-    if (node == NULL)
+int get_node_count(Node* root){
+    if (root == NULL){
         return 0;
+    }
 
-    return 1 + get_node_count(node->left) + get_node_count(node->right);
+    return 1 + get_node_count(root->left) + get_node_count(root->right);
 }
 
-void print_tree_in(Node* node){
-    if (node == NULL)
+void print_tree_in(Node* root){
+    if(root == NULL){
         return;
+    }
 
-    print_tree_in(node->left);
-    printf("%d ", node->val);
-    print_tree_in(node->right);
+    print_tree_in(root->left);
+    printf("%d ", root->val);
+    print_tree_in(root->right);
 }
 
 void print_tree_pre(Node *node){
     if (node == NULL)
-        return 0;
+        return;
 
     printf("%d ", node->val);
     print_tree_pre(node->left);
     print_tree_pre(node->right);
 }
 
-void print_tree_post(Node *node){
-    if (node == NULL);
-        return 0;
+void print_tree_post(Node *root){
+    if (root == NULL);
+        return;
 
-    print_tree_post(node->left);
-    print_tree_post(node->right);
-    printf(node->val);
+    print_tree_post(root->left);
+    print_tree_post(root->right);
+    printf("%d ",root->val);
 }
 
-void delete_tree(Node* node){
-    if (node == NULL) return;
+void delete_tree(Node* root){
+    if (root == NULL) return;
 
-    delete_tree(node->left);
-    delete_tree(node->right);
-    free(node);
+    delete_tree(root->left);
+    delete_tree(root->right);
+    free(root);
 }
 
-bool in_tree(Node* node, int item){
-    if (node == NULL) return false;
+bool in_tree(Node* root, int item){
+    if (root == NULL)
+        return false;
 
-    if (node->val == item) return true;
+    else if (root->val == item)
+        return true;
 
-    if(item < node->val)
-        return in_tree(node->left, item);
-    else if (item > node->val)
-        return in_tree(node->right, item);
+    else if (item < root->val)
+        return in_tree(root->left, item);
+
+    else if (item > root->val)
+        return in_tree(root->right, item);
 }
 
-int get_height(Node *node){
-    if (node == NULL) return -1;
+int get_height(Node * root){
+    if (root == NULL)
+        return -1;
 
-    return 1 + max(get_height(node->right), get_height(node->left));
+    return 1 + max(get_height(root->left), get_height(root->right));
 }
 
-int min_node(Node *node){
-    if(node == NULL){
+int min_node(Node* root){
+    if (root == NULL){
         printf("Tree empty\n");
         exit(EXIT_FAILURE);
     }
 
-    while(node->right != NULL)
-        node = node->right;
+    while (root->left != NULL)
+        root = root->left;
 
-    return node->val;
+    return root->val;
 }
 
-int min_node(Node *node){
-    if(node == NULL){
+int max_node(Node *root){
+    if(root == NULL){
         printf("Tree empty\n");
         exit(EXIT_FAILURE);
     }
 
-    while(node->left != NULL)
-        node = node->left;
+    while(root->right != NULL)
+        root = root->right;
 
-    return node->val;
+    return root->val;
 }
 
-bool is_binary_search_tree(bst_node* node) {
-  return is_between(node, INT_MIN, INT_MAX);
+bool is_bst (Node* root){
+    return node_check(root, INT_MIN, INT_MAX);
 }
 
-bool is_between(bst_node* node, int min, int max) {
-  if (node == NULL) return true;
+bool node_check(Node* root, int min, int max){
+    if (root == NULL)
+        return true;
 
-  // ensure subtrees are not hiding a value lower or higher than the subtree
-  // allows
-  return node->value > min && node->value < max &&
-         is_between(node->left, min, node->value) &&
-         is_between(node->right, node->value, max);
+    return root->val > min && root->val < max
+            && node_check(root->left, min, root->val)
+            && node_check(root->right, root->val, max);
 }
 
-Node* remove(Node *root, int data){
-    if (root == NULL) return root;
-    else if(data < root->val)
-        root->left = remove(root->left, data);
-    else if(data > root->val)
-        root->right = remove(root->right, data);
+void delete(Node **root, int item){
+    if (*root == NULL)
+        return;
+
+    else if(item < (*root)->val)
+        delete(&((*root)->left), item);
+    else if(item > (*root)->val)
+        delete(&((*root)->right), item);
     else{
-        //no child
-        if(root->left == NULL && root->right == NULL){
-            free(root);
-            return NULL;
+        if ((*root)->left == NULL && (*root)->right == NULL){
+            free(*root);
+            return;
         }
-        //one child
-        else if(root->left == NULL){
-            Node* temp = root;
-            root = root->right;
-            free(temp);
-            return root;
+        else if ((*root)->left == NULL){
+            Node *node = *root;
+            *root = (*root)->right;
+            free(node);
+            return;
         }
-
-        else if(root->right == NULL){
-            Node* temp = root;
-            root = root->left;
-            free(temp);
-            return root;
+        else if ((*root)->right == NULL){
+            Node* node = *root;
+            *root = (*root)->left;
+            free(node);
+            return;
         }
-
-        else {
-            Node* temp = min_node(root->right);
-            root->val = temp->val;
-            root->right = remove(root->right, temp->val);
-            return root;
+        else{
+            int temp = min_node((*root)->right);
+            (*root)->val = temp;
+            delete(&((*root)->right), temp);
+            return;
         }
     }
 }
 
-Node* get_successor(Node* node, int data){
-    
+Node* find(Node* root, int item){
+    if (root == NULL)
+        return NULL;
+
+    else if (root->val == item)
+        return root;
+
+    else if (item < root->val)
+        return find(root->left, item);
+
+    else if (item > root->val)
+        return find(root->right, item);
+}
+
+Node* get_successor(Node* root, int data){
+    Node* current = find(root, data);
+    if (current == NULL) return NULL;
+
+    //HAS A RIGHT SUBTREE FIND,FIND LEFT MOST NODE OF THE RIGHT SUBTREE;
+    if (current->right != NULL){
+        Node* temp = current->right;
+        while(temp->left)
+            temp = temp->left;
+        return temp;
+    }
+    //HAS NO RIGHT SUBTREE, FIND NEAREST ANCESTER FOR WHICH  CURRENT NODE IS IN ITS LEFT SUBTREE;
+    else {
+        Node* successor = NULL;
+        Node* ancestor = root;
+
+        while(ancestor != current){
+            if (current->val < ancestor->val){
+                successor = ancestor;
+                ancestor = ancestor->left;
+            }
+            else{
+                ancestor = ancestor->right;
+            }
+        }
+        return successor;
+    }
 }
