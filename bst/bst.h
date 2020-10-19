@@ -18,6 +18,8 @@ int get_node_count(Node* root);
 
 void print_tree_in(Node* root);
 
+void morristraversal(Node* root);
+
 void print_tree_pre(Node *node);
 
 void print_tree_post(Node *node);

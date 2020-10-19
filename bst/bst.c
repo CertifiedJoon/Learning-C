@@ -44,6 +44,28 @@ void print_tree_in(Node* root){
     print_tree_in(root->right);
 }
 
+void morristraversal(Node* root){
+    while(root){
+        if(root->left){
+            Node* pre = root->left;
+            while(pre->right && pre->right != root)
+                pre = pre->right;
+            if(!pre->right){
+                pre->right = root;
+                root = root->left;
+            } else {
+                pre->right = NULL;
+                printf("%d ", root->val);
+                root = root->right;
+            }
+        } else {
+            printf("%d ", root->val);
+            root = root->right;
+        }
+    }
+    return;
+}
+
 void print_tree_pre(Node *node){
     if (node == NULL)
         return;
