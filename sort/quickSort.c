@@ -1,16 +1,38 @@
 #include <stdio.h>
-
+void quickSort2(int nums[], int lo, int hi);
 void quickSort(int nums[], int left, int right);
 void swap(int nums[], int i, int j);
 
 int main(){
-    int to_sort[10] = {9,8,7,6,5,4,2,3,1};
-    quickSort(to_sort, 0, 9);
+    int to_sort[] = {0,4,3,6,2,2,2,2,2,7,5,8,9,1};
+    quickSort2(to_sort, 0, 14);
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 14; i++)
         printf("%d ", to_sort[i]);
 
     return 0;
+}
+
+void quickSort2(int nums[], int lo, int hi){//using 2 partition and tukeys ninther
+    if(hi <= lo)
+        return;
+
+    int lt = lo;
+    int gt = hi;
+    int v = nums[lo];
+    int i = lo;
+
+    while(i <= gt){
+        if(nums[i] < v)
+            swap(nums, lt++, i++);
+        else if(nums[i] > v)
+            swap(nums, i, gt--);
+        else
+            i++;
+    }
+
+    quickSort2(nums, lo, lt-1);
+    quickSort2(nums, gt + 1, hi);
 }
 
 void quickSort(int nums[], int left, int right){
