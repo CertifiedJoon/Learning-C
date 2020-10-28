@@ -73,6 +73,22 @@ Node* merge(Node* a, Node* b){
 }
 
 void mergeSort(Node** headRef){
+    if(!head || !(head->return)) return;
+
+    ListNode* cur = *head;
+    int size = 0;
+    while(cur){
+        size++;
+        cur = cur->next;
+    }
+
+    for (int sz = 1; sz < size; sz *= 2)
+        for(int lo = )
+
+}
+
+
+/*void mergeSort(Node** headRef){ // very slow
     Node* head = *headRef;
     Node* a;
     Node* b;
@@ -84,11 +100,11 @@ void mergeSort(Node** headRef){
 
     lprint(a);
     lprint(b);
-    mergeSort(&a);
+    mergeSort(&a);||
     mergeSort(&b);
     *headRef = merge(a, b);
 }
-
+*/
 int main()
 {
     /* Start with the empty list */
