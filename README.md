@@ -6,3 +6,9 @@ Books used:
 Learning Objective:
 1. Able to implement data structures and algorithms using C with ease
 2. Understand memory management, advantages and disadvantages of data structures/algorithms and efficiency
+
+Video Resorces:
+1. MITOpenCourseWare.
+2. Sedgewick Lecture Series
+3. New York state University lecture series
+4. UCSD lecture series on Coursera
