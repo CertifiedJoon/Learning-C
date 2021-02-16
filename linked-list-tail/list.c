@@ -82,7 +82,7 @@ void cjlist_push_back(CJForwardList *ll, int item){
   node->val = item;
 
   ll->tail->next = node;
-  node = ll->tail;
+  ll->tail = node;
 
   (ll->size)++;
 }
