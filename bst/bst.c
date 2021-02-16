@@ -84,6 +84,15 @@ void print_tree_post(Node *root){
     printf("%d ",root->val);
 }
 
+void print_tree_in(Node *root){
+    if (root == NULL);
+        return;
+
+    print_tree_post(root->left);
+    printf("%d ",root->val);
+    print_tree_post(root->right);
+}
+
 void delete_tree(Node* root){
     if (root == NULL) return;
 
