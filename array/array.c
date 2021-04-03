@@ -69,7 +69,7 @@ void cjarray_resize(CJarray *arr){
 void cjarray_upsize(CJarray *arr){
   int oldcapacity = arr->capacity;
   int newcapacity = cjarray_adjusted_capacity(oldcapacity);
-  int *new_arr = (int *) realloc (arr->data,sizeof(int) * newcapacity);
+  int *new_arr = (int *) realloc (arr->data, sizeof(int) * newcapacity);
   checkNull(new_arr);
 
   arr->data = new_arr;
@@ -83,7 +83,7 @@ void cjarray_downsize(CJarray *arr){
   checkNull(new_arr);
 
   arr->data = new_arr;
-  arr->capacity = arr->capacity / cjShrinkFactor;
+  arr->capacity = new_capacity;
 }
 
 void cjarray_push (CJarray *arr, int item){
@@ -113,6 +113,17 @@ void cjarray_insert(CJarray *arr, int index, int item){
   ++(arr->size);
 }
 
+/*
+void cjarray_insert(CJarray *arr, int index, int item) {
+	checkIndexBound(arr, index);
+	cjarry_resize(arr);
+	
+	memmove(arr->data + index + 1, arr->data + index, sizeof(int) * (arr->size - index));
+	*(arr->data + index) = item;
+	++(arr->size);
+}
+*/
+
 void cjarray_delete(CJarray *arr, int index){
   checkIndexBounds(arr, index);
   cjarray_resize(arr);
@@ -120,7 +131,15 @@ void cjarray_delete(CJarray *arr, int index){
   memmove(arr->data +index, arr->data + index + 1, sizeof(int) * (arr->size - index - 1));
   (arr->size)--;
 }
-
+/*
+void cjarray_delete(CJarray *arr, int index) {
+	checkIndexBounds(arr, index);
+	cjarray_resize(arr);
+	
+	memmove(arr->data + index, arr->data + index + 1, sizeof(int) * (arr->size - index - 1));
+	--(arr->size);
+}
+*/
 void cjarray_prepend(CJarray *arr, int item){
   cjarray_insert(arr, 0, item);
 }
