@@ -99,9 +99,49 @@ int vector_find(vector const* v, int val) {
 	return -1;
 }
 
-int vector_sort(vector *v);
-int vector_reverse(vector *v);
-void vector_insert(vector *v, int val, int index);
+
+void swap(int *v, int i, int j) {
+	int temp = v[i];
+	v[i] = v[j];
+	v[j] = temp;
+}
+
+void quick_sort(int *v, int hi, int lo) {
+	if (hi >= lo)
+		return;
+	
+	last = lo;
+	mid = (hi - lo) / 2 + hi;
+	swap(v, lo, mid);
+	
+	for (int i = lo; i <= hi; ++i)
+		if (v[i] < v[lo])
+			swap(v, i, ++last);
+	
+	swap(v, lo, last);
+	quick_sort(v, lo, last - 1);
+	quick_sort(v, last + 1, hi);
+}
+
+int vector_sort(vector *v) {
+	quick_sort(v->data);
+}
+
+int vector_reverse(vector *v) {
+	lo = 0;
+	hi = v->size - 1;
+	
+	while(lo < hi) {
+		swap(v->data, lo++, hi--);
+	}
+}
+
+void vector_insert(vector *v, int val, int index) {
+	vector_resize(v);
+	memmove(v->data + index, v->data + index + 1, sizeof(int) * (v->size - index - 1));
+	v->data + index = val;
+	++(v->size);
+}
 
 bool vector_isempty(vector *v) {
 	return (v->size == 0);
