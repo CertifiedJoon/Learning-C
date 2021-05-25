@@ -73,13 +73,40 @@ int vector_pop(vector *v) {
 	return ret;
 }
 
-int vector_remove(vector *v, int val) {
+int vector_delete(vector *v, int index) {
+    vector_checkBounds(arr, index);
 	
+	memmove(arr->data +index, arr->data + index + 1, sizeof(int) * (arr->size - index - 1));
+	(arr->size)--;	
 }
-int vector_find(vector *v, int val);
+
+int vector_remove(vector *v, int val) {
+	for (int i = 0; i < v->size; ++i) {
+		if (*(val->data + i) == val){
+			vector_delete(v, i);
+			return i;
+		}
+	}	
+	return -1;
+}
+
+
+int vector_find(vector const* v, int val) {
+	for (int i = 0; i < v->size; ++i) {
+		if (*(v->data + i) == val)
+			return i;
+	}
+	return -1;
+}
+
 int vector_sort(vector *v);
 int vector_reverse(vector *v);
-bool vector_isempty(vector *v);
-int vector_delete(vector *v, int index);
 void vector_insert(vector *v, int val, int index);
-bool vector_checkBounds(vector *v, int idnex);
+
+bool vector_isempty(vector *v) {
+	return (v->size == 0);
+}
+
+bool vector_checkBounds(vector *v, int idnex) {
+	return (index < v->size && index >= 0);
+}
