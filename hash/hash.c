@@ -1,7 +1,7 @@
 #include "hash.h"
-
+#include <stdio.h>
 //assuming the n >= 97/
-static bool is_prime(int n){
+bool is_prime(int n){
     if (n%2 == 0 || n%3 == 0) return false;
 
     for (int i=5; i*i<=n; i=i+6)
@@ -11,7 +11,7 @@ static bool is_prime(int n){
     return true;
 }
 
-static int nextPrime(int n){
+int nextPrime(int n){
     int prime = n;
     bool found = false;
 
@@ -25,7 +25,7 @@ static int nextPrime(int n){
     return prime;
 }
 
-static int determine_cap(int capacity){
+int determine_cap(int capacity){
     if (capacity <= min_initial_cap)
         return min_initial_cap;
 
@@ -51,8 +51,8 @@ hashtable* new_table (int capacity){
     return ht;
 }
 
-static void upsize(hashtable* table){
-    print_debug(table);
+void upsize(hashtable* table){
+	
     int new_cap;
     if (table->size == table->capacity)
         new_cap = nextPrime(table->capacity * 2);
@@ -61,10 +61,11 @@ static void upsize(hashtable* table){
     assert(new_ht != 0);
 
     printf("upsizing to %d\n", new_cap);
+	fflush(stdout);
     printf("current size : %d\n", table->size);
-    printf("the firs key: %s\n", table->data[0]->key);
-
+	
     for (int i = 0; i < table->size; i++){
+		
         add(new_ht, table->data[i]->key, table->data[i]->val);
         free(table->data[i]->key);
         free(table->data[i]->val);
@@ -73,8 +74,7 @@ static void upsize(hashtable* table){
 
     table->data = new_ht->data;
     table->capacity = new_cap;
-
-    printf("upsized to %d\n", table->capacity);
+	// print_debug(table);
 }
 
 

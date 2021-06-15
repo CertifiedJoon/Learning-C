@@ -12,7 +12,9 @@ void print_debug(hashtable* table) {
     if (table->data[i] == NULL) {
       printf("%d:\n", i);
     } else {
-      printf("%s: %s\n", table->data[i]->key, table->data[i]->val);
+      printf("%s: ", table->data[i]->key);
+	  fflush(stdout);
+	  printf("%s\n", table->data[i]->val);
     }
   }
   printf("===================\n");
@@ -45,8 +47,6 @@ void test_add(){
         add(table, line, "dafe");
     }
     fclose(fp);
-
-    print_debug(table);
     assert(table->capacity == 197);
     destroy_table(table);
 }

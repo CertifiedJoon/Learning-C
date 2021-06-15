@@ -1,6 +1,11 @@
 #ifndef HASH_H
 #define HASH_H
 
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
 typedef struct KeyVal {
 	char* key;
 	char* val;
