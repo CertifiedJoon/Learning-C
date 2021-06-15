@@ -52,7 +52,6 @@ hashtable* new_table (int capacity){
 }
 
 void upsize(hashtable* table){
-	
     int new_cap;
     if (table->size == table->capacity)
         new_cap = nextPrime(table->capacity * 2);
@@ -61,22 +60,21 @@ void upsize(hashtable* table){
     assert(new_ht != 0);
 
     printf("upsizing to %d\n", new_cap);
-	fflush(stdout);
     printf("current size : %d\n", table->size);
 	
     for (int i = 0; i < table->size; i++){
-		
+		printf("adding %d\n", i);
         add(new_ht, table->data[i]->key, table->data[i]->val);
         free(table->data[i]->key);
         free(table->data[i]->val);
     }
+	
     free(table->data);
 
     table->data = new_ht->data;
     table->capacity = new_cap;
-	// print_debug(table);
+	print_debug(table);
 }
-
 
 int hash(char* key, int m){
     int hash = 0;
@@ -92,7 +90,8 @@ void add(hashtable *table, char* key, char* val){
     int original_index = index;
     int dummy_index = -1;
     bool found = false;
-
+	char* dummy = "<dummy key>";
+	
     while(table->data[index] != NULL){
         if (table->size == table->capacity){
             upsize(table);
@@ -110,8 +109,10 @@ void add(hashtable *table, char* key, char* val){
 
     if ( !found && dummy_index != -1)
         index = dummy_index;
-
+	
     if (table->data[index] == NULL){
+		fflush(stdout);
+		printf("this is the place and i know it fukcer\n");
         table->data[index] = malloc(sizeof(keyval));
     } else {
         free(table->data[index]->key);
