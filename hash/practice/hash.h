@@ -18,6 +18,6 @@ int hash (char* key);
 
 char* get_val(hashtable *ht, char* key);
 
-void insert(hashtable *ht, char* key, char* val);
+void add(hashtable *ht, char* key, char* val);
 
 #endif
