@@ -101,5 +101,69 @@ bool find(node* root, int val) {
 }
 
 int height(node *root) {
-	return
+	if (root == NULL)
+		return 0;
+	
+	return 1 + max(height(root->right), height(root->left));
+}
+
+int minNode(node *root) {
+	assert(root != NULL);
+	
+	while (root->left)
+		root = root->left;
+	
+	return root->val;
+}
+
+int maxNode(node *root) {
+	assert(root != NULL);
+	
+	while (root->right)
+		root = root->right;
+	
+	return root->val;
+}
+
+bool isBst(node* root){
+	checkNode(root, INT_MIN, INT_MAX);
+}
+
+bool checkNode(node* root, int min, int max) {
+	if (root == NULL) 
+		return true;
+	
+	return root->val > min && root->val < max
+		   && checkNode(root->left, min, root->val) 
+		   && checkNode(root->right, root->val, max);
+}
+
+void delete(node** root, int val) {
+	if (*root == NULL)
+		return;
+	
+	else if (item < (*root)->val)
+		return delete(&(*root)->left, val);
+	else if (item < (*root)->val)
+		return delete(&(*root)->right, val);
+	else {
+		if ((*root)->left == NULL) {
+			node *temp = *root;
+			*root = (*root)->right;
+			free(temp);
+		} else if ((*root)->right == NULL) {
+			node *temp = *root;
+			*root = (*root)->left;
+			free(temp);
+		} else {
+			int temp = minNode((*root)->right);
+			(*root)->val = temp;
+			delete(&((*root)->rightt, temp));
+			return;
+		}
+	}
+}
+
+node* getSuccessor(node* root, int val) {
+	node
 }

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-
+#include <limits.h>
 typedef struct Node {
 	int val;
 	struct Node* left;
@@ -31,11 +31,11 @@ bool find(node* root, int val);
 
 int getHeight(node* root);
 
-int min(node* root);
+int minNode(node* root);
 
-int max(node* root);
+int maxNode(node* root);
 
-bool is_bst(node* root);
+bool isBst(node* root);
 
 void delete(node **root, int item);
 
