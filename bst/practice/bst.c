@@ -87,11 +87,11 @@ void deleteTree(node* root) {
 	free(root);
 }
 
-bool find(node* root, int val) {
+node* find(node* root, int val) {
 	if (root == NULL)
-		return false;
+		return NULL;
 	else if ( root->val == val)
-		return true;
+		return root;
 	
 	else if (item < root->val)
 		return find(root->left, val);
@@ -165,5 +165,26 @@ void delete(node** root, int val) {
 }
 
 node* getSuccessor(node* root, int val) {
-	node
+	node* current = find(root, data);
+	if (current == NULL) return NULL;
+	
+	if (current->right != NULL) {
+		node *temp = current->right;
+		while(temp->left)
+			temp = temp->left;
+		return temp;
+	} else {
+		node *successor = NULL;
+		node* ancestor = root;
+		
+		while (ancestor != current) {
+			if (current->val < ancestor->val) {
+				successor = ancestor;
+				ancestor = ancestor->left;
+			} else {
+				ancestor = ancestor->right;
+			}
+		}
+		return successor;
+	}
 }
